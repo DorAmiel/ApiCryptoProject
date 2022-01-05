@@ -1,0 +1,44 @@
+body {
+    background-image: url("4578830.jpg");
+    min-height: 500px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#crypto-place-header {
+    font-size: 40px;
+}
+
+#header-navbar-container {
+    padding: 40px;
+}
+
+#buttons-navbar-container {
+    background-color: white;
+}
+
+#buttons-container {
+    display: flex;
+    justify-content: space-evenly;
+    width: 60%;
+}
+
+.navbar-button {
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+#main-container {
+    margin: 40px;
+}
+
+#coin-card {
+    min-width: 18em;
+    min-height: 18em;
+}
+
+#search-input {
+    width: auto;
+}
