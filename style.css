@@ -34,11 +34,32 @@ body {
     margin: 40px;
 }
 
-#coin-card {
+
+/* #coin-card {
     min-width: 18em;
     min-height: 18em;
-}
+} */
 
 #search-input {
     width: auto;
+}
+
+.more-info-place-holder {
+    display: none;
+}
+
+#about-container {
+    color: white;
+    text-align: center;
+    visibility: hidden
+}
+
+#live-reports-container {
+    color: white;
+    text-align: center;
+    visibility: hidden
+}
+
+#more-info-div {
+    display: none;
 }
