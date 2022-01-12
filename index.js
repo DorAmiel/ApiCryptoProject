@@ -2,7 +2,7 @@ $(() => {
     // First entrance load(Coins Cards)
 
     let coinCard = "";
-
+    let lastClick
 
     $.ajax({
         url: "https://api.coingecko.com/api/v3/coins/list",
@@ -26,7 +26,7 @@ $(() => {
                         </div>
                         <br>
                         <button id="${list[i].id}" type="button" class="btn btn-outline-primary more-info-button">More Info</button>
-                        <div id="data-place-holder"></div>
+                        <div id="data-place-holder${list[i].id}"></div>
                         <div class="spinner-container" id="spinner${list[i].id}">
                         <div class="spinner-border text-dark" role="status">
                         <span class="sr-only">Loading...</span>
@@ -46,6 +46,7 @@ $(() => {
     //More Info functions
     const clickEventFunction = () => {
         $(".more-info-button").click(function() {
+            lastClick = (new Date()).getTime();
             $(this).next().collapse("toggle");
             if ($(this).next().children().length <= 0) {
                 let cardId = $(this).attr("id");
@@ -57,11 +58,13 @@ $(() => {
                     },
                 });
                 const displayCoinInformation = (data) => {
+
                     let usdPrice = data.market_data.current_price.usd
                     let euroPrice = data.market_data.current_price.eur
                     let ilsPrice = data.market_data.current_price.ils
                     let coinThumbnail = data.image.thumb
                     let coinSymbol = data.symbol
+
                     let moreInfo = `
                     <div id="more-info-place-holder">
                     <br>
@@ -73,8 +76,10 @@ $(() => {
                     <br>
                     <img src="${coinThumbnail}" alt="${coinSymbol} img">
                     </div>`;
+
                     $(this).next().append(moreInfo);
                     $(`#spinner${cardId}`).hide()
+
                     localStorage.setItem("usdPrice", usdPrice)
                     localStorage.setItem("euroPrice", euroPrice)
                     localStorage.setItem("ilsPrice", ilsPrice)
@@ -82,7 +87,7 @@ $(() => {
                     localStorage.setItem("coinSymbol", coinSymbol)
                     console.log(localStorage)
 
-
+                    checkTimePassed(lastClick, localStorage, cardId)
                 };
             } else {
                 return;
@@ -90,7 +95,21 @@ $(() => {
         });
     };
 
-    //Navigate Buttons function
+
+    const checkTimePassed = (lastClick, localStorage, cardid) => {
+        setTimeout(() => {
+            let currentTime
+            currentTime = (new Date()).getTime();
+            if (currentTime > lastClick) {
+                console.log(localStorage)
+                localStorage.clear();
+                $(`#more-info-place-holder`).toggle(3000).remove()
+            }
+        }, 3000);
+    }
+
+
+    //Navigate Buttons functions
 
     $("#about-button").click(function() {
         $("#main-container").hide();
@@ -108,9 +127,9 @@ $(() => {
         $("#live-reports-container").show();
     });
 
-    //$(".more-info-place-holder").each(function() {
-    //let infoId = $(this).attr("id")
-    //$(`#${infoId}`).slideToggle(2000);
-    //console.log(infoId)
-    //})
+
+
+    //TODOS    
+    //FIX MULTIPLE STORE IN LOCALSTORAGE
+    //FIX SECONDS AJAX CALLING AFTER REMOVE FROM LOCALSTORAGE
 });
