@@ -1,9 +1,9 @@
 $(() => {
-    // First entrance load(Coins Cards)
 
     let coinCard = "";
     let lastClick
 
+    // First entrance load(Coins Cards)
     $.ajax({
         url: "https://api.coingecko.com/api/v3/coins/list",
         success: (list) => {
@@ -21,8 +21,8 @@ $(() => {
                     <div class="card-body">
                         <h5 class="card-title">${list[i].name}</h5>
                         <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="switchID${list[i].id}">
-                        <label class="custom-control-label" for="switchID${list[i].id}"></label>
+                        <input type="checkbox" class="switch custom-control-input" id="switchID${list[i].id}">
+                        <label class="switch custom-control-label" for="switchID${list[i].id}"></label>
                         </div>
                         <br>
                         <button id="${list[i].id}" type="button" class="btn btn-outline-primary more-info-button">More Info</button>
@@ -41,6 +41,7 @@ $(() => {
         $("#main-container").append(coinCard);
         $(".spinner-container").hide()
         clickEventFunction();
+
     };
 
     //More Info functions
@@ -51,12 +52,15 @@ $(() => {
             if ($(this).next().children().length <= 0) {
                 let cardId = $(this).attr("id");
                 $(`#spinner${cardId}`).show()
+
+                //More Info Ajax Calling
                 $.ajax({
                     url: `https://api.coingecko.com/api/v3/coins/${cardId}`,
-                    success: function(data) {
+                    success: (data) => {
                         displayCoinInformation(data);
                     },
                 });
+
                 const displayCoinInformation = (data) => {
 
                     let usdPrice = data.market_data.current_price.usd
@@ -80,14 +84,30 @@ $(() => {
                     $(this).next().append(moreInfo);
                     $(`#spinner${cardId}`).hide()
 
-                    localStorage.setItem("usdPrice", usdPrice)
-                    localStorage.setItem("euroPrice", euroPrice)
-                    localStorage.setItem("ilsPrice", ilsPrice)
-                    localStorage.setItem("coinThumbnail", coinThumbnail)
-                    localStorage.setItem("coinSymbol", coinSymbol)
-                    console.log(localStorage)
+                    //Set To Local Storage
+                    let newCoin = {
+                        coinId: cardId,
+                        usdPrice: usdPrice,
+                        euroPrice: euroPrice,
+                        ilsPrice: ilsPrice,
+                        coinThumbnail: coinThumbnail,
+                        coinSymbol: coinSymbol
+                    }
+                    let coinsArray = localStorage.getItem("coins-list")
+                    let coinsList = JSON.parse(coinsArray)
 
-                    checkTimePassed(lastClick, localStorage, cardId)
+                    if (coinsList === null) {
+                        coinsList = []
+                    }
+
+                    coinsList.push(newCoin)
+
+                    let coinsToJson = JSON.stringify(coinsList)
+                    localStorage.setItem("coins-list", coinsToJson)
+
+
+
+                    checkTimePassedAndRemoveFromLocalStorage(lastClick, coinsList, cardId, )
                 };
             } else {
                 return;
@@ -96,17 +116,27 @@ $(() => {
     };
 
 
-    const checkTimePassed = (lastClick, localStorage, cardid) => {
+    const checkTimePassedAndRemoveFromLocalStorage = (lastClick, coinsList, cardId) => {
+        console.log(coinsList)
+            // console.log(cardId)
         setTimeout(() => {
             let currentTime
             currentTime = (new Date()).getTime();
             if (currentTime > lastClick) {
-                console.log(localStorage)
-                localStorage.clear();
+                let filteredCoinsList = coinsList.filter(el => el.cardId !== cardId)
+                coinsList = filteredCoinsList
+                let coinsToJson = JSON.stringify(coinsList)
+                localStorage.setItem("coins-list", coinsToJson)
+                    // localStorage.removeItem("coins-list");
+                    // console.log(coinsList)
                 $(`#more-info-place-holder`).toggle(3000).remove()
             }
         }, 3000);
     }
+
+
+
+
 
 
     //Navigate Buttons functions
