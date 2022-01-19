@@ -15,10 +15,10 @@
 
 <body>
     <div id="header">
-        <nav class="navbar navbar-dark bg-dark">
+        <nav id="navbar-container" class="navbar navbar-dark bg-dark">
             <div class="container-fluid" id="header-navbar-container">
                 <a id="crypto-place-header" class="navbar-brand" href="#">
-                    <img src="cropped-blockchain-favicon-1.jpg" alt="" width="60" height="60" class="d-inline-block align-text-top"> Crypto Market
+                    <img src="cropped-blockchain-favicon-1.jpg" alt="" width="60px" height="60px" class="d-inline-block align-text-top"> Crypto Market
                 </a>
             </div>
         </nav>
@@ -66,6 +66,25 @@
     </div>
 
 
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Please Replace Coin</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div id="modal-coins-container" class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 <script src="index.js"></script>
