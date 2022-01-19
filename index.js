@@ -163,7 +163,7 @@ $(() => {
                 selectedCoinsArray.splice(selectedCoinToModal, 1)
             }
             console.log(selectedCoinsArray)
-            if (selectedCoinsArray.length > 3) {
+            if (selectedCoinsArray.length > 5) {
                 popUpModal()
             }
 
@@ -182,11 +182,12 @@ $(() => {
             selectedCoinsInModal += `
                 <div class="modal-selected-coins">
                 <h5>${selectedCoinsArray[i].id}</h5>
-                <div id="switch-box" class="custom-control custom-switch">
-                    <input type="checkbox" checked class="modalCheckBox  custom-control-input" id="modal-checkbox-${selectedCoinsArray[i].id} ">
-                    <label class="switch custom-control-label" for="modal-checkbox-${selectedCoinsArray[i].id}"></label>
-                    <hr>
-                </div>
+                <div class="custom-control custom-switch ">
+                <input class="custom-control-input modalCheckBox" type="checkbox" checked role="switch" id="coin-switch-${
+                  selectedCoinsArray[i].id}">
+                  <label class="switch custom-control-label" for="coin-switch-${selectedCoinsArray[i].id}"></label>
+
+            </div>
                 </div>
                 `
         }
@@ -196,10 +197,28 @@ $(() => {
         $('#exampleModal').modal('show')
     }
 
-    $(".modalCheckBox").on('click', '.modalCheckBox', (event) => {
-        console.log(event.currentTarget)
+
+    $("#modal-coins-container").on('click', '.modalCheckBox', (event) => {
+        let coinInModal = event.currentTarget.id.substr(12)
+        console.log(event.currentTarget.checked)
+        if (!coinInModal.checked) {
+            selectedCoinsArray.splice(coinInModal, 1)
+            $(`#main-container`).find(
+                `#checkbox-${coinInModal}`
+            )[0].checked = false;
+            console.log(selectedCoinsArray)
+            $('#exampleModal').modal('hide')
+        }
     })
 
+    $(`.modal-close-button`).click(() => {
+        let canceledCoin = selectedCoinsArray.pop()
+        console.log(canceledCoin)
+        $(`#main-container`).find(
+            `#checkbox-${canceledCoin.id}`
+        )[0].checked = false;
+        console.log(selectedCoinsArray)
+    })
 
 
     //Navigate Buttons functions
