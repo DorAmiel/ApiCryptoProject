@@ -1,16 +1,26 @@
 $(() => {
 
+    //Hide Divs
+    $("#about-container").hide()
+    $("#live-reports-container").hide()
+
+    //Declarations
     let coinCard = "";
     let lastClick
+    let switchCounter = 0
+    let listArray = []
 
     // First entrance load(Coins Cards)
     $.ajax({
         url: "https://api.coingecko.com/api/v3/coins/list",
         success: (list) => {
             displayCard(list);
+            listArray = [...list]
+                // console.log(listArray)
         },
     });
 
+    //Display Card Function
     const displayCard = (list) => {
         for (let i = 0; i < 100; i++) {
             // console.table(list[i])
@@ -20,9 +30,9 @@ $(() => {
                     <div class="card-header">${list[i].symbol}</div>
                     <div class="card-body">
                         <h5 class="card-title">${list[i].name}</h5>
-                        <div class="custom-control custom-switch">
-                        <input type="checkbox" class="switch custom-control-input" id="switchID${list[i].id}">
-                        <label class="switch custom-control-label" for="switchID${list[i].id}"></label>
+                        <div id="switch-box" class="custom-control custom-switch">
+                        <input type="checkbox" class="myCheckBox  custom-control-input" id="checkbox-${list[i].id}">
+                        <label class="switch custom-control-label" for="checkbox-${list[i].id}"></label>
                         </div>
                         <br>
                         <button id="${list[i].id}" type="button" class="btn btn-outline-primary more-info-button">More Info</button>
@@ -36,11 +46,12 @@ $(() => {
                     </div>
                 </div>
             `;
-
+            switchCounter++
         }
         $("#main-container").append(coinCard);
         $(".spinner-container").hide()
-        clickEventFunction();
+        clickEventFunction()
+        checkBoxLimitCheck()
 
     };
 
@@ -58,6 +69,7 @@ $(() => {
                     url: `https://api.coingecko.com/api/v3/coins/${cardId}`,
                     success: (data) => {
                         displayCoinInformation(data);
+
                     },
                 });
 
@@ -136,7 +148,44 @@ $(() => {
 
 
 
+    // let checkBoxMaxCheck = 0
+    // let checkBoxArray = []
+    // const checkBoxLimitCheck = () => {
+    //     $("input[type='checkbox']").change(function() {
+    //         if (this.checked) {
+    //             checkBoxArray.push(checkBoxMaxCheck)
+    //             if (checkBoxArray.length > 0) {
+    //                 $('#exampleModal').modal('show')
+    //                 console.log("max")
+    //             }
+    //         }
+    //     })
+    // }
 
+    //Checkbox limit function
+    let checkBoxArray = []
+    const checkBoxLimitCheck = () => {
+        $(".myCheckBox").change(function() {
+            let id = $(this).attr('id');
+            let isChecked = $(this).attr('checked')
+
+            let card = $(".col")
+            console.log(id)
+                // for (let id of listArray) {
+                //     console.log(id)
+                // }
+            cardIdBySwitch = card[id]
+            console.log(cardIdBySwitch)
+            if (this.checked) {
+                checkBoxArray.push(cardIdBySwitch)
+                if (checkBoxArray.length > 2) {
+                    $("#modal-coins-container").append(cardIdBySwitch)
+                    $('#exampleModal').modal('show')
+                }
+            }
+            console.log(checkBoxArray)
+        });
+    }
 
 
     //Navigate Buttons functions
