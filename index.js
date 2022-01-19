@@ -148,44 +148,58 @@ $(() => {
 
 
 
-    // let checkBoxMaxCheck = 0
-    // let checkBoxArray = []
-    // const checkBoxLimitCheck = () => {
-    //     $("input[type='checkbox']").change(function() {
-    //         if (this.checked) {
-    //             checkBoxArray.push(checkBoxMaxCheck)
-    //             if (checkBoxArray.length > 0) {
-    //                 $('#exampleModal').modal('show')
-    //                 console.log("max")
-    //             }
-    //         }
-    //     })
-    // }
-
-    //Checkbox limit function
-    let checkBoxArray = []
+    let selectedCoinsArray = []
     const checkBoxLimitCheck = () => {
         $(".myCheckBox").change(function() {
-            let id = $(this).attr('id');
-            let isChecked = $(this).attr('checked')
-
-            let card = $(".col")
-            console.log(id)
-                // for (let id of listArray) {
-                //     console.log(id)
-                // }
-            cardIdBySwitch = card[id]
-            console.log(cardIdBySwitch)
-            if (this.checked) {
-                checkBoxArray.push(cardIdBySwitch)
-                if (checkBoxArray.length > 2) {
-                    $("#modal-coins-container").append(cardIdBySwitch)
-                    $('#exampleModal').modal('show')
-                }
+            let specificCheckBoxId = $(this).attr('id');
+            let coinIdSelected = specificCheckBoxId.substr(9)
+            console.log(specificCheckBoxId)
+            console.log(coinIdSelected)
+            let isChecked = $(this).prop('checked')
+            let selectedCoinToModal = listArray.find(element => element.id === coinIdSelected)
+            if (isChecked === true) {
+                selectedCoinsArray.push(selectedCoinToModal)
+            } else {
+                selectedCoinsArray.splice(selectedCoinToModal, 1)
             }
-            console.log(checkBoxArray)
+            console.log(selectedCoinsArray)
+            if (selectedCoinsArray.length > 3) {
+                popUpModal()
+            }
+
         });
     }
+
+
+
+
+
+    const popUpModal = () => {
+
+        console.log(selectedCoinsArray)
+        let selectedCoinsInModal = ''
+        for (let i = 0; i < selectedCoinsArray.length - 1; i++) {
+            selectedCoinsInModal += `
+                <div class="modal-selected-coins">
+                <h5>${selectedCoinsArray[i].id}</h5>
+                <div id="switch-box" class="custom-control custom-switch">
+                    <input type="checkbox" checked class="modalCheckBox  custom-control-input" id="modal-checkbox-${selectedCoinsArray[i].id} ">
+                    <label class="switch custom-control-label" for="modal-checkbox-${selectedCoinsArray[i].id}"></label>
+                    <hr>
+                </div>
+                </div>
+                `
+        }
+
+        $('#modal-coins-container').append(selectedCoinsInModal)
+
+        $('#exampleModal').modal('show')
+    }
+
+    $(".modalCheckBox").on('click', '.modalCheckBox', (event) => {
+        console.log(event.currentTarget)
+    })
+
 
 
     //Navigate Buttons functions
