@@ -7,7 +7,6 @@ $(() => {
     //Declarations
     let coinCard = "";
     let lastClick
-    let switchCounter = 0
     let listArray = []
 
     // First entrance load(Coins Cards)
@@ -46,7 +45,6 @@ $(() => {
                     </div>
                 </div>
             `;
-            switchCounter++
         }
         $("#main-container").append(coinCard);
         $(".spinner-container").hide()
@@ -207,11 +205,13 @@ $(() => {
                 `#checkbox-${coinInModal}`
             )[0].checked = false;
             console.log(selectedCoinsArray)
+            $('#modal-coins-container').empty()
             $('#exampleModal').modal('hide')
         }
     })
 
     $(`.modal-close-button`).click(() => {
+        $('#modal-coins-container').empty()
         let canceledCoin = selectedCoinsArray.pop()
         console.log(canceledCoin)
         $(`#main-container`).find(
