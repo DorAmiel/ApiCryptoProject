@@ -5,10 +5,10 @@ $(() => {
     $("#live-reports-container").hide()
 
     //Declarations
-    let coinCard = "";
     let lastClick
     let listArray = []
-        // First entrance load(Coins Cards)
+
+    // First entrance load(Coins Cards)
     $.ajax({
         url: "https://api.coingecko.com/api/v3/coins/list",
         success: (list) => {
@@ -19,7 +19,9 @@ $(() => {
     });
 
     //Display Card Function
+
     const displayCard = (list) => {
+        let coinCard = "";
         for (let i = 0; i < 100; i++) {
             // console.table(list[i])
             coinCard += `
