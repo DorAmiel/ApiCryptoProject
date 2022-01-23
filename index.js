@@ -1,6 +1,6 @@
 $(() => {
 
-    //Hide Divs
+    //Set Attr.
     $("#about-container").hide()
     $("#live-reports-container").hide()
 
@@ -8,8 +8,7 @@ $(() => {
     let coinCard = "";
     let lastClick
     let listArray = []
-
-    // First entrance load(Coins Cards)
+        // First entrance load(Coins Cards)
     $.ajax({
         url: "https://api.coingecko.com/api/v3/coins/list",
         success: (list) => {
@@ -220,20 +219,36 @@ $(() => {
         console.log(selectedCoinsArray)
     })
 
+    //Filter By Search
+
+    $(`#search-button`).click(() => {
+        $("#main-container").empty();
+        let searchedCoinSymbol = $(`#search-input`).val()
+        console.log(searchedCoinSymbol)
+        const searchedCoinsArray = listArray.filter((coin) => {
+            if (coin.id.includes(searchedCoinSymbol)) {
+                return coin;
+            }
+        });
+        console.log(searchedCoinsArray)
+        displayCard(searchedCoinsArray)
+    })
+
 
     //Navigate Buttons functions
 
-    $("#about-button").click(function() {
+    $("#about-button").click(() => {
         $("#main-container").hide();
         $("#live-reports-container").hide();
         $("#about-container").show();
     });
-    $("#coins-button").click(function() {
+    $("#coins-button").click(() => {
         $("#live-reports-container").hide();
         $("#about-container").hide();
         $("#main-container").show();
+        displayCard(listArray)
     });
-    $("#live-reports-button").click(function() {
+    $("#live-reports-button").click(() => {
         $("#main-container").hide();
         $("#about-container").hide();
         $("#live-reports-container").show();
@@ -242,6 +257,7 @@ $(() => {
 
 
     //TODOS    
-    //FIX MULTIPLE STORE IN LOCALSTORAGE
     //FIX SECONDS AJAX CALLING AFTER REMOVE FROM LOCALSTORAGE
+    //hide cards when search
+    //Live reports
 });
