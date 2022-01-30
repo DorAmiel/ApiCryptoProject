@@ -16,6 +16,10 @@ $(() => {
             listArray = [...list]
                 // console.log(listArray)
         },
+        error: () => {
+            alert("Faild to recive data from server. Please try again later.")
+        }
+
     });
 
     //Display Card Function
@@ -118,7 +122,7 @@ $(() => {
 
 
 
-                    checkTimePassedAndRemoveFromLocalStorage(lastClick, coinsList, cardId, )
+                    checkTimePassedAndRemoveFromLocalStorage(lastClick, coinsList, cardId)
                 };
             } else {
                 return;
@@ -138,13 +142,8 @@ $(() => {
                 coinsList = filteredCoinsList
                 console.log(coinsList)
                 let coinsToJson = JSON.stringify(coinsList)
-                console.log(coinsToJson)
+                    // console.log(coinsToJson)
                 localStorage.setItem("coins-list", coinsToJson)
-                let removedItemCoinsList = localStorage.getItem("coins-list")
-
-                console.log(removedItemCoinsList)
-                    // localStorage.removeItem(localStorageKey);
-                    // console.log(coinsList)
                 $(`#more-info-place-holder`).toggle(3000).remove()
             }
         }, 3000);
@@ -170,7 +169,6 @@ $(() => {
             if (selectedCoinsArray.length > 5) {
                 popUpModal()
             }
-
         });
     }
 
@@ -265,6 +263,5 @@ $(() => {
 
     //TODOS    
     //FIX SECONDS AJAX CALLING AFTER REMOVE FROM LOCALSTORAGE
-    //hide cards when search
-    //Live reports
+    //fix when search
 });
