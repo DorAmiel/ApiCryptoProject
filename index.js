@@ -5,7 +5,6 @@ $(() => {
     $("#live-reports-container").hide()
 
     //Declarations
-    let lastClick
     let listArray = []
 
     // First entrance load(Coins Cards)
@@ -75,88 +74,26 @@ $(() => {
                 },
             });
             $(this).next().empty()
-
-            // displayCoinInformation(data, this, cardId)
-            // const displayCoinInformation = (data) => {
-
-            //     let usdPrice = data.market_data.current_price.usd
-            //     let euroPrice = data.market_data.current_price.eur
-            //     let ilsPrice = data.market_data.current_price.ils
-            //     let coinThumbnail = data.image.thumb
-            //     let coinSymbol = data.symbol
-
-            //     let moreInfo = `
-            //         <div id="more-info-place-holder">
-            //         <br>
-            //         <span>${usdPrice} &#36;</span>
-            //         <br>
-            //         <span>${euroPrice} &#8364;</span>
-            //         <br>
-            //         <span>${ilsPrice} &#8362;</span>
-            //         <br>
-            //         <img src="${coinThumbnail}" alt="${coinSymbol} img">
-            //         </div>`
-
-            //     $(this).next().append(moreInfo);
-            //     $(`#spinner${cardId}`).hide()
-
-            //Set To Local Storage
-            // setToLocalStorage(cardId)
-            // let newCoin = {
-            //         coinId: cardId,
-            //         usdPrice: usdPrice,
-            //         euroPrice: euroPrice,
-            //         ilsPrice: ilsPrice,
-            //         coinThumbnail: coinThumbnail,
-            //         coinSymbol: coinSymbol
-            //     }
-            //     // let coinsArray = localStorage.getItem("coins-list")
-            //     // let coinsList = JSON.parse(coinsArray)
-
-            // // if (coinsList === null) {
-            // //     coinsList = []
-            // // }
-
-            // // coinsList.push(newCoin)
-
-            // let coinsToJson = JSON.stringify(newCoin)
-            // localStorage.setItem(cardId, coinsToJson)
-            // console.log(localStorage.getItem(cardId))
-
-
-
-            // checkTimePassedAndRemoveFromLocalStorage(cardId)
-            //     // };
         });
     };
 
     const setToLocalStorage = (cardId, coinData) => {
         let newCoin = {
-                coinId: cardId,
-                usdPrice: coinData.market_data.
-                current_price.usd,
-                euroPrice: coinData.market_data.
-                current_price.eur,
-                ilsPrice: coinData.market_data.
-                current_price.ils,
-                coinThumbnail: coinData.image.
-                thumb,
-                coinSymbol: coinData.symbol
-            }
-            // let coinsArray = localStorage.getItem("coins-list")
-            // let coinsList = JSON.parse(coinsArray)
-
-        // if (coinsList === null) {
-        //     coinsList = []
-        // }
-
-        // coinsList.push(newCoin)
+            coinId: cardId,
+            usdPrice: coinData.market_data.
+            current_price.usd,
+            euroPrice: coinData.market_data.
+            current_price.eur,
+            ilsPrice: coinData.market_data.
+            current_price.ils,
+            coinThumbnail: coinData.image.
+            thumb,
+            coinSymbol: coinData.symbol
+        }
 
         let coinsToJson = JSON.stringify(newCoin)
         localStorage.setItem(cardId, coinsToJson)
         console.log(localStorage.getItem(cardId))
-
-
 
         checkTimePassedAndRemoveFromLocalStorage(cardId)
     }
