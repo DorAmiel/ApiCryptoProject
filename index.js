@@ -90,7 +90,7 @@ $(() => {
                     <span>${ilsPrice} &#8362;</span>
                     <br>
                     <img src="${coinThumbnail}" alt="${coinSymbol} img">
-                    </div>`;
+                    </div>`
 
                     $(this).next().append(moreInfo);
                     $(`#spinner${cardId}`).hide()
@@ -136,9 +136,14 @@ $(() => {
             if (currentTime > lastClick) {
                 let filteredCoinsList = coinsList.filter(el => el.cardId !== cardId)
                 coinsList = filteredCoinsList
+                console.log(coinsList)
                 let coinsToJson = JSON.stringify(coinsList)
+                console.log(coinsToJson)
                 localStorage.setItem("coins-list", coinsToJson)
-                    // localStorage.removeItem("coins-list");
+                let removedItemCoinsList = localStorage.getItem("coins-list")
+
+                console.log(removedItemCoinsList)
+                    // localStorage.removeItem(localStorageKey);
                     // console.log(coinsList)
                 $(`#more-info-place-holder`).toggle(3000).remove()
             }
