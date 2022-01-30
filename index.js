@@ -93,7 +93,6 @@ $(() => {
 
         let coinsToJson = JSON.stringify(newCoin)
         localStorage.setItem(cardId, coinsToJson)
-        console.log(localStorage.getItem(cardId))
 
         checkTimePassedAndRemoveFromLocalStorage(cardId)
     }
@@ -123,7 +122,6 @@ $(() => {
     }
 
     const checkTimePassedAndRemoveFromLocalStorage = (cardId) => {
-        console.log(cardId)
         setTimeout(() => {
             localStorage.removeItem(cardId)
             $(`#more-info-place-holder`).toggle(3000).remove()
