@@ -69,87 +69,121 @@ $(() => {
             $.ajax({
                 url: `https://api.coingecko.com/api/v3/coins/${cardId}`,
                 success: (data) => {
-                    displayCoinInformation(data);
+                    setToLocalStorage(cardId, data)
+                    displayCoinInformation(data, this, cardId)
 
                 },
             });
             $(this).next().empty()
 
-            const displayCoinInformation = (data) => {
+            // displayCoinInformation(data, this, cardId)
+            // const displayCoinInformation = (data) => {
 
-                let usdPrice = data.market_data.current_price.usd
-                let euroPrice = data.market_data.current_price.eur
-                let ilsPrice = data.market_data.current_price.ils
-                let coinThumbnail = data.image.thumb
-                let coinSymbol = data.symbol
+            //     let usdPrice = data.market_data.current_price.usd
+            //     let euroPrice = data.market_data.current_price.eur
+            //     let ilsPrice = data.market_data.current_price.ils
+            //     let coinThumbnail = data.image.thumb
+            //     let coinSymbol = data.symbol
 
-                let moreInfo = `
-                    <div id="more-info-place-holder">
-                    <br>
-                    <span>${usdPrice} &#36;</span>
-                    <br>
-                    <span>${euroPrice} &#8364;</span>
-                    <br>
-                    <span>${ilsPrice} &#8362;</span>
-                    <br>
-                    <img src="${coinThumbnail}" alt="${coinSymbol} img">
-                    </div>`
+            //     let moreInfo = `
+            //         <div id="more-info-place-holder">
+            //         <br>
+            //         <span>${usdPrice} &#36;</span>
+            //         <br>
+            //         <span>${euroPrice} &#8364;</span>
+            //         <br>
+            //         <span>${ilsPrice} &#8362;</span>
+            //         <br>
+            //         <img src="${coinThumbnail}" alt="${coinSymbol} img">
+            //         </div>`
 
-                $(this).next().append(moreInfo);
-                $(`#spinner${cardId}`).hide()
+            //     $(this).next().append(moreInfo);
+            //     $(`#spinner${cardId}`).hide()
 
-                //Set To Local Storage
-                let newCoin = {
-                        coinId: cardId,
-                        usdPrice: usdPrice,
-                        euroPrice: euroPrice,
-                        ilsPrice: ilsPrice,
-                        coinThumbnail: coinThumbnail,
-                        coinSymbol: coinSymbol
-                    }
-                    // let coinsArray = localStorage.getItem("coins-list")
-                    // let coinsList = JSON.parse(coinsArray)
+            //Set To Local Storage
+            // setToLocalStorage(cardId)
+            // let newCoin = {
+            //         coinId: cardId,
+            //         usdPrice: usdPrice,
+            //         euroPrice: euroPrice,
+            //         ilsPrice: ilsPrice,
+            //         coinThumbnail: coinThumbnail,
+            //         coinSymbol: coinSymbol
+            //     }
+            //     // let coinsArray = localStorage.getItem("coins-list")
+            //     // let coinsList = JSON.parse(coinsArray)
 
-                // if (coinsList === null) {
-                //     coinsList = []
-                // }
+            // // if (coinsList === null) {
+            // //     coinsList = []
+            // // }
 
-                // coinsList.push(newCoin)
+            // // coinsList.push(newCoin)
 
-                let coinsToJson = JSON.stringify(newCoin)
-                localStorage.setItem(cardId, coinsToJson)
-                console.log(localStorage.getItem(cardId))
+            // let coinsToJson = JSON.stringify(newCoin)
+            // localStorage.setItem(cardId, coinsToJson)
+            // console.log(localStorage.getItem(cardId))
 
 
 
-                checkTimePassedAndRemoveFromLocalStorage(lastClick, cardId)
-            };
+            // checkTimePassedAndRemoveFromLocalStorage(cardId)
+            //     // };
         });
     };
 
-    // const displayCoinInformation = (data) => {
+    const setToLocalStorage = (cardId, coinData) => {
+        let newCoin = {
+                coinId: cardId,
+                usdPrice: coinData.market_data.
+                current_price.usd,
+                euroPrice: coinData.market_data.
+                current_price.eur,
+                ilsPrice: coinData.market_data.
+                current_price.ils,
+                coinThumbnail: coinData.image.
+                thumb,
+                coinSymbol: coinData.symbol
+            }
+            // let coinsArray = localStorage.getItem("coins-list")
+            // let coinsList = JSON.parse(coinsArray)
 
-    //     let usdPrice = data.market_data.current_price.usd
-    //     let euroPrice = data.market_data.current_price.eur
-    //     let ilsPrice = data.market_data.current_price.ils
-    //     let coinThumbnail = data.image.thumb
-    //     let coinSymbol = data.symbol
+        // if (coinsList === null) {
+        //     coinsList = []
+        // }
 
-    //     let moreInfo = `
-    //     <div id="more-info-place-holder">
-    //     <br>
-    //     <span>${usdPrice} &#36;</span>
-    //     <br>
-    //     <span>${euroPrice} &#8364;</span>
-    //     <br>
-    //     <span>${ilsPrice} &#8362;</span>
-    //     <br>
-    //     <img src="${coinThumbnail}" alt="${coinSymbol} img">
-    //     </div>`
+        // coinsList.push(newCoin)
 
-    //     $(this).next().append(moreInfo);
-    //     $(`#spinner${cardId}`).hide()
+        let coinsToJson = JSON.stringify(newCoin)
+        localStorage.setItem(cardId, coinsToJson)
+        console.log(localStorage.getItem(cardId))
 
+
+
+        checkTimePassedAndRemoveFromLocalStorage(cardId)
+    }
+
+    const displayCoinInformation = (data, buttonId, cardId) => {
+
+        let usdPrice = data.market_data.current_price.usd
+        let euroPrice = data.market_data.current_price.eur
+        let ilsPrice = data.market_data.current_price.ils
+        let coinThumbnail = data.image.thumb
+        let coinSymbol = data.symbol
+
+        let moreInfo = `
+        <div id="more-info-place-holder">
+        <br>
+        <span>${usdPrice} &#36;</span>
+        <br>
+        <span>${euroPrice} &#8364;</span>
+        <br>
+        <span>${ilsPrice} &#8362;</span>
+        <br>
+        <img src="${coinThumbnail}" alt="${coinSymbol} img">
+        </div>`
+
+        $(buttonId).next().append(moreInfo);
+        $(`#spinner${cardId}`).hide()
+    }
 
     const checkTimePassedAndRemoveFromLocalStorage = (cardId) => {
         console.log(cardId)
