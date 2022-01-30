@@ -128,8 +128,8 @@ $(() => {
 
 
     const checkTimePassedAndRemoveFromLocalStorage = (lastClick, coinsList, cardId) => {
-        console.log(coinsList)
-            // console.log(cardId)
+        // console.log(coinsList)
+        console.log(cardId)
         setTimeout(() => {
             let currentTime
             currentTime = (new Date()).getTime();
