@@ -230,6 +230,7 @@ $(() => {
         $("#live-reports-container").hide();
         $("#about-container").hide();
         $("#main-container").show();
+        $("#main-container").empty()
         displayCard(listArray)
     });
     $("#live-reports-button").click(() => {
@@ -238,9 +239,4 @@ $(() => {
         $("#live-reports-container").show();
     });
 
-
-
-    //TODOS    
-    //FIX SECONDS AJAX CALLING AFTER REMOVE FROM LOCALSTORAGE
-    //fix when search
 });
