@@ -13,7 +13,6 @@ $(() => {
         success: (list) => {
             displayCard(list);
             listArray = [...list]
-                // console.log(listArray)
         },
         error: () => {
             alert("Faild to recive data from server. Please try again later.")
@@ -25,8 +24,7 @@ $(() => {
 
     const displayCard = (list) => {
         let coinCard = "";
-        for (let i = 0; i < 100; i++) {
-            // console.table(list[i])
+        for (let i = 0; i < list.length; i++) {
             coinCard += `
             <div class="col">
                 <div id="card-container" class="card border-light mb-3 coin-card" style="max-width: 15rem; ">
@@ -125,7 +123,7 @@ $(() => {
         setTimeout(() => {
             localStorage.removeItem(cardId)
             $(`#more-info-place-holder`).toggle(3000).remove()
-        }, 3000);
+        }, 120000);
     }
 
 
@@ -135,8 +133,6 @@ $(() => {
         $(".myCheckBox").change(function() {
             let specificCheckBoxId = $(this).attr('id');
             let coinIdSelected = specificCheckBoxId.substr(9)
-            console.log(specificCheckBoxId)
-            console.log(coinIdSelected)
             let isChecked = $(this).prop('checked')
             let selectedCoinToModal = listArray.find(element => element.id === coinIdSelected)
             if (isChecked === true) {
@@ -144,7 +140,6 @@ $(() => {
             } else {
                 selectedCoinsArray.splice(selectedCoinToModal, 1)
             }
-            console.log(selectedCoinsArray)
             if (selectedCoinsArray.length > 5) {
                 popUpModal()
             }
@@ -157,7 +152,6 @@ $(() => {
 
     const popUpModal = () => {
 
-        console.log(selectedCoinsArray)
         let selectedCoinsInModal = ''
         for (let i = 0; i < selectedCoinsArray.length - 1; i++) {
             selectedCoinsInModal += `
@@ -181,13 +175,11 @@ $(() => {
 
     $("#modal-coins-container").on('click', '.modalCheckBox', (event) => {
         let coinInModal = event.currentTarget.id.substr(12)
-        console.log(event.currentTarget.checked)
         if (!coinInModal.checked) {
             selectedCoinsArray.splice(coinInModal, 1)
             $(`#main-container`).find(
                 `#checkbox-${coinInModal}`
             )[0].checked = false;
-            console.log(selectedCoinsArray)
             $('#modal-coins-container').empty()
             $('#exampleModal').modal('hide')
         }
@@ -196,11 +188,9 @@ $(() => {
     $(`.modal-close-button`).click(() => {
         $('#modal-coins-container').empty()
         let canceledCoin = selectedCoinsArray.pop()
-        console.log(canceledCoin)
         $(`#main-container`).find(
             `#checkbox-${canceledCoin.id}`
         )[0].checked = false;
-        console.log(selectedCoinsArray)
     })
 
     //Filter By Search
@@ -208,13 +198,11 @@ $(() => {
     $(`#search-button`).click(() => {
         $("#main-container").empty();
         let searchedCoinSymbol = $(`#search-input`).val()
-        console.log(searchedCoinSymbol)
         const searchedCoinsArray = listArray.filter((coin) => {
             if (coin.id.includes(searchedCoinSymbol)) {
                 return coin;
             }
         });
-        console.log(searchedCoinsArray)
         displayCard(searchedCoinsArray)
     })
 
